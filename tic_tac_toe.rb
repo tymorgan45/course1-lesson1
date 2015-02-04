@@ -1,12 +1,7 @@
-# Draw board w/ positions 1-9
-# Loop until winner or board full
-#   Player picks square
-#     Check for winner
-#     Check for all squares full
-#   Computer picks square
-#     Check for winner
-#     Check for all squares full
-# Display result of game
+# Edge cases & additional logic
+# Have computer block two in a row
+# Only allow user to pick an empty position
+require 'pry'
 
 def initialize_board
   b = {}
@@ -27,8 +22,13 @@ board = initialize_board
 draw_board(board)
 
 def player_picks_position(b)
-  puts "Pick position (1-9)"
-  position = gets.chomp.to_i
+  begin
+    puts "Pick any open position (1-9)"
+    position = gets.chomp.to_i
+    if b[position] != " "
+      puts "Oops, that position is taken. Try again"
+    end
+  end until b[position] == " "
   b[position] = 'x'
 end
 
@@ -38,6 +38,14 @@ end
 
 def comp_picks_position(b)
   position = empty_positions(b).sample
+  winning_lines = [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
+  winning_lines.each do |line|
+    if b.values_at(*line).count('x') == 2 and b.values_at(*line).count("o") == 0
+      line.each do |key|
+        position = key if b[key] == " "
+      end
+    end 
+  end
   b[position] = 'o'
 end
 
@@ -52,14 +60,10 @@ end
 def winner?(b)
   winning_lines = [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
   winning_lines.each do |line|
-    if b[line[0]] == 'x' and b[line[1]] == 'x' and b[line[2]] == 'x'
-      return "Player"
-    elsif b[line[0]] == 'o' and b[line[1]] == 'o' and b[line[2]] == 'o'
-      return "Computer"
-    else
-      return nil
-    end
+    return "Player" if b.values_at(*line).count('x') == 3
+    return "Computer" if b.values_at(*line).count('o') == 3
   end
+  nil
 end
 
 begin
