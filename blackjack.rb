@@ -105,7 +105,7 @@ def hit_or_stay(cards, deck) #cards must be in hash
         puts "Would you like to hit again? (y/n)"
         answer = gets.chomp
       else
-        puts "Thats not good"
+        break
       end
     end while answer == 'y'
   end
