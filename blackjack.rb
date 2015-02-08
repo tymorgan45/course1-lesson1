@@ -119,29 +119,6 @@ def dealer_plays(dealers_cards, deck)
   end
 end
 
-def compare_hands(players_cards, dealers_cards, bet, players_chips)
-  dealer_total = sum(dealers_cards)
-  player_total = sum(players_cards)
-
-  if player_total == dealer_total
-    puts "It's a push, keep your chips"
-  elsif dealer_total > 21
-    puts "Dealer busts"
-    players_chips += bet
-    puts "You won $#{bet} and have a total of $#{players_chips} in chips."
-  elsif dealer_total > player_total
-    puts "Dealer wins"
-    players_chips -= bet
-    puts "You lost $#{bet} and now have $#{players_chips} in chips."
-  elsif player_total > dealer_total 
-    puts "You WIN"
-    players_chips += bet
-    "You won $#{bet} and have a total of $#{players_chips} in chips."
-  else
-    puts "Something went wrong"
-  end
-end 
-
 puts "Welcome to Blackjack sucker"
 puts "How many chips would you like to buy?"
 players_chips = gets.chomp.to_i
